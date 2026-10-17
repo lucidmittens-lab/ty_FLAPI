@@ -266,6 +266,23 @@ at the bottom.
 - `FDL`: load, validate, create, merge and save ASC Framing Decision Lists, and
   turn a canvas into a Format.
 
+**Transforms and repositions.** The API has no access to the per-shot
+Transform/Reposition operator: there are no methods for pan, zoom, rotate or
+keyframes on a shot. The transform data you *can* reach:
+
+| What | Read | Write |
+|---|---|---|
+| Format-to-format mapping (`FormatMapping`: `sx`, `sy`, `tx`, `ty`, `inside`, `src_mask`, `dest_mask`). This is how an input format sits in the working format. | `Format.get_mapping(name)` | `add_mapping` / `delete_mapping` |
+| Masks (`XMin/XMax/YMin/YMax`) | `get_masks`, `get_mask` | `add_mask` / `delete_mask` |
+| Shot input format, which is where the mapping above comes from | `Shot.get_input_format` | `set_input_format` |
+| Flip/flop (`AT_NONE/FLIP/FLOP/FLIPFLOP`) | `get_input_orientation` | `set_input_orientation` |
+| FDL framing (canvas, framing decision dimensions and anchor, protection, squeeze) | `Shot.get_fdl(output_format)` | `set_input_format_from_fdl`, `create_format_from_fdl_canvas_template` |
+| Resampling filter and quality (scene-wide) | `ImageTransform*` scene settings | same |
+
+A shot's reposition is stored in its grade stack, so the only way to reach it
+is as part of the whole stack: `get_blg_payload`/`apply_blg_payload`, BLG
+export, or MultiPaste. The API doesn't document what's inside a BLG payload.
+
 ---
 
 ## 8. Working with the live application (scripts run inside Baselight)
