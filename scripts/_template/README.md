@@ -5,7 +5,7 @@ What it does, in a sentence or two.
 ## Requirements
 
 - Tested with: Baselight / Daylight version `X.Y`
-- Python 3, with `flapi` on `PYTHONPATH`
+- Python 3.12 with `flapi` (Baselight's FLAPI venv, or the filmlightapi wheel)
 
 ## Usage
 

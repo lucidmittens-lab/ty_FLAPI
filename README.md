@@ -53,17 +53,28 @@ and PATCH for fixes.
 
 ## Running scripts
 
-The scripts need the `flapi` Python module that ships with FilmLight software.
-It is not on PyPI. Point Python at the copy that came with your install, for
-example:
+The scripts need the `flapi` module that ships with FilmLight software as a
+wheel. It is not on PyPI. Baselight creates a Python 3.12 virtual environment
+with `flapi` already installed, so the easiest way is to run scripts with that
+interpreter:
 
 ```sh
-export PYTHONPATH=/usr/fl/baselight/share/flapi/python:$PYTHONPATH   # adjust for your install/version
-python3 scripts/<name>/<name>.py --help
+# Linux
+/usr/fl/python/3.12-rocky-8-v7-venv/bin/python3 scripts/<name>/<name>.py --help
+# macOS
+"/Library/Application Support/FilmLight/python/3.12-v7-venv/bin/python3" scripts/<name>/<name>.py --help
 ```
 
+To use a different machine or virtual environment, install the wheel found in
+`/usr/fl/baselight/share/flapi/python/`. Connections to a remote host also need
+a username and a FLAPI token. Create the token on the server with
+`fl-setup-flapi-token`, then pass it with `--user` and `--token`, or set
+`FLAPI_TOKEN`.
+
 FLAPI's calls change between FilmLight releases, so each script's README says
-which Baselight/Daylight version it was tested against.
+which Baselight/Daylight version it was tested against. See
+[docs/flapi-overview.md](docs/flapi-overview.md) for a summary of what the API
+can read and change.
 
 ## Conventions
 

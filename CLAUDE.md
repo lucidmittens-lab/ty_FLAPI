@@ -10,4 +10,6 @@ single application. Read README.md for the layout and versioning rules. In short
 - `flapi` ships with FilmLight software and is not installed here, so scripts
   can't be run end to end in this environment. At minimum, check syntax with
   `python3 -m py_compile`.
+- `docs/flapi-overview.md` summarises the API (Baselight 7.0 docs). Check it
+  before writing FLAPI calls, and remember to `release()` server objects.
 - Keep scripts standalone. Don't add shared modules unless asked.
