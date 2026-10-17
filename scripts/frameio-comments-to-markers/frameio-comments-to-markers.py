@@ -12,7 +12,7 @@ Usage:
     python3 frameio-comments-to-markers.py host:job:scene /path/to/frameio_comments.csv
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 import argparse
 import csv
@@ -22,7 +22,7 @@ import sys
 try:
     import flapi
 except ImportError:
-    sys.exit("Could not import flapi. Add FilmLight's flapi python directory to PYTHONPATH.")
+    sys.exit("Could not import flapi. Run with Baselight's FLAPI Python venv, or pip install the filmlightapi wheel.")
 
 FPS = 24
 MARK_CATEGORY = "[FRAME.IO]"
@@ -42,6 +42,9 @@ def parse_args():
     parser.add_argument("scene", help="Scene path, as host:job:scene")
     parser.add_argument("csv_path", help="Path to the Frame.io comments CSV")
     parser.add_argument("--host", default="localhost", help="FLAPI server host (default: localhost)")
+    parser.add_argument("--user", help="Username, needed for remote hosts")
+    parser.add_argument("--token", default=os.environ.get("FLAPI_TOKEN"),
+                        help="FLAPI token, needed for remote hosts (default: $FLAPI_TOKEN)")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     return parser.parse_args()
 
@@ -268,7 +271,10 @@ def main():
     if not os.path.isfile(args.csv_path):
         sys.exit("Invalid path supplied to csv.")
 
-    conn = flapi.Connection(args.host)
+    if args.user or args.token:
+        conn = flapi.Connection(args.host, username=args.user, token=args.token)
+    else:
+        conn = flapi.Connection(args.host)
     try:
         conn.connect()
     except flapi.FLAPIException as exc:

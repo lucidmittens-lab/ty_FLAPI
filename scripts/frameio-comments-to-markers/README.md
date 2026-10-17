@@ -12,7 +12,7 @@ applied to every comment.
 ## Requirements
 
 - Tested with: Baselight / Daylight version `X.Y`
-- Python 3, with `flapi` on `PYTHONPATH`
+- Python 3.12 with `flapi` (Baselight's FLAPI venv, or the filmlightapi wheel)
 - A Frame.io comments CSV export with columns in the standard order (author in
   column 6, comment in 8, date/time in 10, frame in 13, Frame.io timecode in 15,
   timecode source in 18)
@@ -23,7 +23,8 @@ applied to every comment.
 python3 frameio-comments-to-markers.py host:job:scene /path/to/frameio_comments.csv
 ```
 
-Use `--host` to connect to a FLAPI server other than `localhost`.
+To connect to a FLAPI server other than `localhost`, pass `--host`, plus
+`--user` and `--token` (or set `FLAPI_TOKEN`).
 
 ## Known limitations
 
@@ -34,6 +35,10 @@ Use `--host` to connect to a FLAPI server other than `localhost`.
 - If the scene's start timecode can't be read, the EDL timecodes print as `None`.
 
 ## Changelog
+
+### 1.1.0 - 2026-10-17
+- Added `--user` and `--token` (or `FLAPI_TOKEN`) for remote hosts, matching the
+  updated script template.
 
 ### 1.0.0 - 2026-10-17
 - Imported into this repo from `convert_frameio_comments_to_bl_markers_v41.py`.
